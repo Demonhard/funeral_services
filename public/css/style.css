@@ -308,6 +308,9 @@ html {
 	column-gap: 30px;
 	row-gap: 30px;
 	margin-top: 30px;
+	@media screen and (max-width: 568px) {
+		grid-template-columns: 1fr; 
+	}
 }
 
 .goods__item {
@@ -318,6 +321,7 @@ html {
 	box-shadow: 7px 7px 12px 0 rgba(209, 209, 209, 0.25);
 	border: 1px solid var(--light-color);
 	padding: 20px 0;
+	
 }
 
 .goods__item__text {
@@ -347,6 +351,9 @@ html {
 	text-align: left;
 	padding-left: 20px;
 	font-weight: 500;
+	@media screen and (max-width: 576px) {
+		font-size: 26px;
+	}
 }
 
 .stages__text {
@@ -355,6 +362,9 @@ html {
 	font-weight: 100;
 	margin-top: 40px;
 	line-height: normal;
+	@media screen and (max-width: 576px) {
+		font-size: 18px;
+	}
 	
 }
 
@@ -364,6 +374,10 @@ html {
 	grid-template-rows: repeat(2, 1fr);
 	margin-top: 40px;
 	gap: 20px;
+	@media screen and (max-width: 568px) {
+		grid-template-columns: 1fr;
+		margin-top: 20px;
+	}
 }
 
 .stages__grid__item {
@@ -385,6 +399,9 @@ html {
 	font-weight: 300;
 	margin-top: 10px;
 	line-height: normal;
+	@media screen and (max-width: 576px) {
+		font-size: 16px;
+	}
 }
 
 .stages__item__text {
@@ -470,7 +487,11 @@ html {
 				margin-bottom: 10px;
 			}
 	}
-
+	@media screen and (max-width: 576px) {
+		width: 100%;
+		margin-bottom: 10px;
+		flex-direction: column;
+	}
 	
 
 	.btn {
