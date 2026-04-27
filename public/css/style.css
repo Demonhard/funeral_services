@@ -101,6 +101,8 @@ html {
 .btn {
 	display: flex;
 	justify-content: center;
+	align-items: center;
+	max-width: 180px;
 	text-decoration: none;
 	text-align: center;
 	padding: 4px 10px;
@@ -263,6 +265,9 @@ html {
 .catalog {
 	background-color: var(--light-color);
 	padding: 80px 20px 20px 20px;
+	@media screen and (max-width: 568px) {
+		padding: 40px 0 20px 0;
+	}
 }
 
 .catalog__title {
