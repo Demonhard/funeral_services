@@ -99,9 +99,12 @@ html {
 }
 
 .btn {
-	padding: 3 10px;
+	display: flex;
+	justify-content: center;
+	text-decoration: none;
+	text-align: center;
+	padding: 4px 10px;
 	margin-top: 20px;
-	width: 160px;
 	min-height: 38px;
 	font-size: 16px;
 	color: var(--light-color);
@@ -142,7 +145,7 @@ html {
 	}
 	
 	@media screen and (max-width: 576px) {
-		margin-top: 233px;
+		display: none;
 	}
 }
 
@@ -211,7 +214,12 @@ html {
 	display: flex;
 	margin-top: 80px;
 	column-gap: 10px;
+	@media screen and (max-width: 768px) {
+		flex-direction: column;
+		margin-top: 40px;
+	}
 }
+
 
 .services__items {
 	width: 50%;
@@ -226,6 +234,9 @@ html {
 		font-weight: 400;
 		line-height: normal;
 		margin-top: 10px;
+	}
+	@media screen and (max-width: 768px) {
+		width: 100%;
 	}
 }
 
@@ -243,6 +254,10 @@ html {
 	color: var(--dark-color);
 	font-weight: 400;
 	line-height: normal;
+	@media screen and (max-width: 768px) {
+		width: 100%;
+		margin-top: 20px;
+	}
 }
 
 .catalog {
@@ -291,6 +306,9 @@ html {
 .goods {
 	padding: 80px;
 	background-color: var(--dark-color);
+	@media screen and (max-width: 768px) {
+			padding: 40px 0;
+		}
 }
 
 .goods__title {
@@ -343,6 +361,9 @@ html {
 .stages {
 	padding: 80px;
 	background-color: var(--dark-color);
+	@media screen and (max-width: 768px) {
+		padding: 40px 0;
+	}
 }
 
 .title {
