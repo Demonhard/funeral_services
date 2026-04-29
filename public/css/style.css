@@ -32,6 +32,7 @@ img {
 
 html {
 	font-family: "Inter", sans-serif;
+	scroll-behavior: smooth;
 }
 
 :root {
@@ -43,6 +44,54 @@ html {
 
 .container {
 	padding: 0 var(--container-pading-inline);
+}
+main {
+	position: relative;
+}			
+
+nav {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 2;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	column-gap: 30px;
+	padding: 20px 20px;
+	background-color: #000;
+	a {
+		color: var(--light-color);
+		text-decoration: none;
+		font-weight: 400;
+		font-size: 16px;
+		transition: all 0.3s ease-out;
+		cursor: pointer;
+	}
+	@media screen and (max-width: 768px) {
+		& {
+			justify-content: center;
+			column-gap: 15px;
+		}
+	}
+	img.logo {
+		width: 50px;
+		height: 50px;
+		background-color: black;
+		object-fit: cover;
+		@media screen and (max-width: 768px) {
+			width: 40px;
+			height: 40px;
+		}
+	}
+	.wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		column-gap: 30px;
+	}
+
 }
 
 .promo {
