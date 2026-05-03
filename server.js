@@ -1,3 +1,6 @@
+require("dotenv").config();
+console.log("DB URL:", process.env.MONGO_URI ? "Знайдено ✅" : "Не знайдено ❌");
+
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -94,4 +97,7 @@ app.post("/posts", async (req, res) => {
   res.json(post);
 });
 
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB OK"))
+  .catch(err => console.log(err));
 
