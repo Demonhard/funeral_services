@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 // 🔌 MongoDB
-mongoose.connect("mongodb://127.0.0.1:27017/mydb") 
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB OK"))
   .catch(err => console.log(err));
 
@@ -65,7 +65,33 @@ app.delete("/clear", async (req, res) => {
 
 
 // 🚀 запуск
-app.listen(3000, () => {
-  console.log("http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Server started on port " + PORT);
 });
+
+
+app.post("/posts", async (req, res) => {
+  let { username, email, comment } = req.body;
+
+  if (!username || !email || !comment) {
+    return res.status(400).send("Empty fields");
+  }
+
+  const clean = (str) =>
+    str.replace(/&/g, "&amp;")
+       .replace(/</g, "&lt;")
+       .replace(/>/g, "&gt;");
+
+  const post = new Post({
+    username: clean(username),
+    email: clean(email),
+    comment: clean(comment),
+  });
+
+  await post.save();
+  res.json(post);
+});
+
 

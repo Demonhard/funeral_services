@@ -1,49 +1,82 @@
 const form = document.getElementById("form");
+const posts = document.getElementById("posts");
 
+// 🔒 sanitize
+function sanitize(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+// 🎯 submit
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const fd = new FormData(form);
 
+  const data = {
+    username: fd.get("username").trim(),
+    email: fd.get("email").trim(),
+    comment: fd.get("comment").trim()
+  };
+
+  // ❌ валідація
+  if (!data.username || !data.email || !data.comment) {
+    alert("Заповніть всі поля");
+    return;
+  }
+
+  // 🔒 sanitize
+  data.username = sanitize(data.username);
+  data.email = sanitize(data.email);
+  data.comment = sanitize(data.comment);
+
   await fetch("/posts", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({
-      username: fd.get("username"),
-      email: fd.get("email"),
-      comment: fd.get("comment")
-    })
+    body: JSON.stringify(data)
   });
 
-  form.reset(); //  очищає всі поля
-  load();
+  form.reset();
+  load(true); // 🔥 з анімацією
 });
 
-async function load(){
+// 🚀 load
+async function load(withAnimation = false) {
   const res = await fetch("/posts");
   const data = await res.json();
 
-  document.getElementById("posts").innerHTML =
-    data.map(p => `
-      <div>
-        <b class="name__client">${p.username}</b>
-        <p>${p.email}</p>
-        <div class="comment__client">${p.comment}</div>
-      </div>
-    `).join("");
+  posts.innerHTML = "";
+
+  data.reverse().forEach((p, i) => {
+    const div = document.createElement("div");
+    div.classList.add("comment");
+
+    div.innerHTML = `
+      <b class="name__client">${p.username}</b>
+      <p>${p.email}</p>
+      <div class="comment__client">${p.comment}</div>
+    `;
+
+    posts.appendChild(div);
+
+    if (withAnimation) {
+      setTimeout(() => {
+        div.classList.add("show");
+      }, i * 100);
+    } else {
+      div.classList.add("show");
+    }
+  });
 }
 
 load();
 
-
-const clearBtn = document.getElementById("clearBtn");
-
-clearBtn.addEventListener("click", async () => {
+// 🧹 clear
+document.getElementById("clearBtn").addEventListener("click", async () => {
   if (!confirm("Точно видалити всі коментарі?")) return;
 
-  await fetch("/clear", {
-    method: "DELETE"
-  });
-
-  load(); // оновити список
+  await fetch("/clear", { method: "DELETE" });
+  load();
 });
