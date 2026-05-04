@@ -132,13 +132,5 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB OK"))
   .catch(err => console.log(err));
 
-const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "mutro2003@gmail.com",
-    pass: "твій_app_password"
-  }
-});
 
