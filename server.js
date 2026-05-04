@@ -3,9 +3,18 @@ console.log("DB URL:", process.env.MONGO_URI ? "Знайдено ✅" : "Не з
 
 const express = require("express");
 const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
 
 const app = express();
 app.use(express.json());
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
 
 // 🔌 MongoDB
 mongoose.connect(process.env.MONGO_URI)
@@ -76,9 +85,9 @@ app.listen(PORT, () => {
 
 
 app.post("/posts", async (req, res) => {
-  let { username, email, comment } = req.body;
+  let { username, email, comment, phone } = req.body;
 
-  if (!username || !email || !comment) {
+  if (!username || !comment || !phone) {
     return res.status(400).send("Empty fields");
   }
 
@@ -87,17 +96,49 @@ app.post("/posts", async (req, res) => {
        .replace(/</g, "&lt;")
        .replace(/>/g, "&gt;");
 
-  const post = new Post({
+  const safeData = {
     username: clean(username),
-    email: clean(email),
+    email: clean(email || ""),
     comment: clean(comment),
+    phone: clean(phone)
+  };
+
+  // 🔥 ЗБЕРІГАЄМО БЕЗ ТЕЛЕФОНУ
+  const post = new Post({
+    username: safeData.username,
+    email: safeData.email,
+    comment: safeData.comment
   });
 
   await post.save();
+
+  // 📧 ВІДПРАВКА ПОШТИ (з телефоном)
+  await transporter.sendMail({
+    from: "mutro2003@gmail.com",
+    to: "biliak.dmytro@chnu.edu.ua",
+    subject: "Новий відгук",
+    html: `
+      <b>Ім'я:</b> ${safeData.username} <br>
+      <b>Телефон:</b> ${safeData.phone} <br>
+      <b>Email:</b> ${safeData.email} <br>
+      <b>Коментар:</b> ${safeData.comment}
+    `
+  });
+
   res.json(post);
 });
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB OK"))
   .catch(err => console.log(err));
+
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "mutro2003@gmail.com",
+    pass: "твій_app_password"
+  }
+});
 

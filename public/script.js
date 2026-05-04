@@ -18,12 +18,20 @@ form.addEventListener("submit", async (e) => {
   const data = {
     username: fd.get("username").trim(),
     email: fd.get("email").trim(),
-    comment: fd.get("comment").trim()
-  };
+    comment: fd.get("comment").trim(),
+  phone: fd.get("phone").trim() // 🔥 ДОДАЛИ
+};
 
   // ❌ валідація
-  if (!data.username || !data.email || !data.comment) {
+  if (!data.username || !data.email || !data.comment || !data.phone) {
     alert("Заповніть всі поля");
+    return;
+  }
+
+  const phoneRegex = /^\+?\d{10,15}$/;
+
+  if (!phoneRegex.test(data.phone)) {
+    alert("Введіть коректний номер телефону");
     return;
   }
 
@@ -31,7 +39,7 @@ form.addEventListener("submit", async (e) => {
   data.username = sanitize(data.username);
   data.email = sanitize(data.email);
   data.comment = sanitize(data.comment);
-
+  data.phone = sanitize(data.phone);
   await fetch("/posts", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
@@ -74,9 +82,9 @@ async function load(withAnimation = false) {
 load();
 
 // 🧹 clear
-document.getElementById("clearBtn").addEventListener("click", async () => {
-  if (!confirm("Точно видалити всі коментарі?")) return;
+// document.getElementById("clearBtn").addEventListener("click", async () => {
+//   if (!confirm("Точно видалити всі коментарі?")) return;
 
-  await fetch("/clear", { method: "DELETE" });
-  load();
-});
+//   await fetch("/clear", { method: "DELETE" });
+//   load();
+  // posts.innerHTML = ""; // 🔥 миттєво очистити на фронті});
