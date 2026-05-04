@@ -26,6 +26,7 @@ const Post = mongoose.model("Post", {
   username: String,
   email: String,
   comment: String,
+  phone: String,
 });
 
 // =======================
@@ -36,7 +37,7 @@ app.use(express.static("public"));
 
 // 📥 GET всі пости
 app.get("/posts", async (req, res) => {
-  const posts = await Post.find();
+  const posts = await Post.find().select("-phone"); // 🔥 приховали phone
   res.json(posts);
 });
 
@@ -46,12 +47,7 @@ app.get("/posts/:id", async (req, res) => {
   res.json(post);
 });
 
-// ➕ POST створити
-app.post("/posts", async (req, res) => {
-  const post = new Post(req.body);
-  await post.save();
-  res.json(post);
-});
+
 
 // ✏️ PUT оновити
 app.put("/posts/:id", async (req, res) => {
@@ -107,15 +103,16 @@ app.post("/posts", async (req, res) => {
   const post = new Post({
     username: safeData.username,
     email: safeData.email,
-    comment: safeData.comment
+    comment: safeData.comment,
+    phone: safeData.phone
   });
 
   await post.save();
 
   // 📧 ВІДПРАВКА ПОШТИ (з телефоном)
   await transporter.sendMail({
-    from: "mutro2003@gmail.com",
-    to: "biliak.dmytro@chnu.edu.ua",
+    from: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER,
     subject: "Новий відгук",
     html: `
       <b>Ім'я:</b> ${safeData.username} <br>

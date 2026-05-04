@@ -545,9 +545,11 @@ nav {
 		color: rgb(75, 75, 75);
 		border: none;
 		padding: 0 20px;
+		text-align: left;
+		margin-bottom: 10px;
 		@media  screen and (max-width: 1024px) {
 			width: 250px;
-			margin-bottom: 10px;
+			margin-bottom: 15px;
 		}
 	}
 
