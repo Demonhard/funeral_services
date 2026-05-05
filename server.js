@@ -125,9 +125,34 @@ app.post("/posts", async (req, res) => {
   res.json(post);
 });
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB OK"))
-  .catch(err => console.log(err));
+
+// пошта
+app.post("/send", async (req, res) => {
+  const { name, email, phone, product } = req.body;
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"Скорбота сайт" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
+      subject: "Нова заявка",
+      html: `
+        <h3>Нове звернення</h3>
+        <p><b>Ім'я:</b> ${name}</p>
+        <p><b>Телефон:</b> ${phone}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Товар:</b> ${product}</p>
+      `
+    });
+
+    console.log("EMAIL SENT:", info.response); // 🔥 ДОДАЙ
+
+    res.json({ status: "ok" });
+
+  } catch (err) {
+    console.error("EMAIL ERROR:", err); // 🔥 ДОДАЙ
+    res.status(500).json({ error: "Помилка пошти" });
+  }
+});
 
 
 

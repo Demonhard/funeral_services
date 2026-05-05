@@ -79,7 +79,150 @@ async function load(withAnimation = false) {
   });
 }
 
+// ======================
+// 🔥 МОДАЛКИ
+// ======================
+
+// відкриття consultation
+document.querySelectorAll('[data-modal="consultation"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelector('.overlay').classList.add('active');
+    document.querySelector('#consultation').classList.add('active');
+  });
+});
+
+// закриття всіх
+document.querySelectorAll('.modal__close').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelector('.overlay').classList.remove('active');
+    document.querySelector('#consultation').classList.remove('active');
+    document.querySelector('#order').classList.remove('active');
+    document.querySelector('#thanks').classList.remove('active');
+  });
+});
+
+// кнопки товарів
+const buttons = document.querySelectorAll('.button_mini');
+const subtitles = document.querySelectorAll('.goods__item__text');
+
+buttons.forEach((btn, i) => {
+  btn.addEventListener('click', () => {
+    document.querySelector('#order .modal__descr').textContent =
+      subtitles[i].textContent;
+
+    document.querySelector('.overlay').classList.add('active');
+    document.querySelector('#order').classList.add('active');
+  });
+});
+
+// ======================
+// 🔥 ВАЛІДАЦІЯ
+// ======================
+
+function validateForm(form) {
+  const name = form.querySelector('[name="name"]');
+  const email = form.querySelector('[name="email"]');
+  const phone = form.querySelector('[name="phone"]');
+
+  let valid = true;
+
+  // очистка помилок
+  form.querySelectorAll('.error').forEach(e => e.remove());
+
+  function showError(input, message) {
+    const err = document.createElement('div');
+    err.className = 'error';
+    err.style.color = 'red';
+    err.style.fontSize = '12px';
+    err.textContent = message;
+    input.after(err);
+  }
+
+  if (!name.value.trim()) {
+    showError(name, "Введіть своє ім'я");
+    valid = false;
+  }
+
+  if (!phone.value.trim()) {
+    showError(phone, "Введіть свій номер телефону");
+    valid = false;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!email.value.trim()) {
+    showError(email, "Введіть свою пошту");
+    valid = false;
+  } else if (!emailRegex.test(email.value)) {
+    showError(email, "Ваша пошта має бути вигляду name@domain.com");
+    valid = false;
+  }
+
+  return valid;
+}
+
+// ======================
+// 🔥 ПІДКЛЮЧЕННЯ ДО ФОРМИ
+// ======================
+
+const modalForm = document.querySelector('#form');
+
+if (modalForm) {
+  modalForm.addEventListener('submit', (e) => {
+    if (!validateForm(modalForm)) {
+      e.preventDefault();
+    }
+  });
+}
+
+// ======================
+// 🚀 ВІДПРАВКА МОДАЛЬНИХ ФОРМ
+// ======================
+
+document.querySelectorAll('.feed-form').forEach(form => {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!validateForm(form)) return;
+
+    const fd = new FormData(form);
+
+    const data = {
+      name: fd.get('name'),
+      email: fd.get('email'),
+      phone: fd.get('phone'),
+      product: document.querySelector('#order .modal__descr')?.textContent || ''
+    };
+
+    try {
+      await fetch('/send', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+
+      // очищаємо форму
+      form.reset();
+
+      // закриваємо всі
+      document.querySelector('.overlay').classList.remove('active');
+      document.getElementById('consultation').classList.remove('active');
+      document.getElementById('order').classList.remove('active');
+
+      // відкриваємо THANKS
+      document.querySelector('.overlay').classList.add('active');
+      document.getElementById('thanks').classList.add('active');
+
+    } catch (err) {
+      alert('Помилка відправки');
+      console.error(err);
+    }
+  });
+});
+
 load();
+
+
 
 // 🧹 clear
 // document.getElementById("clearBtn").addEventListener("click", async () => {

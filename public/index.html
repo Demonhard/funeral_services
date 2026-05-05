@@ -19,7 +19,7 @@
 	
 		<!-- 🎨 Favicon -->
 		<link rel="icon" href="icons/favicon-16x16.png" sizes="16x16" />
-		<link rel="icon" href="icons/favicon-32x32.png" sizes="32x32" />
+		<!-- <link rel="icon" href="icons/favicon-32x32.png" sizes="32x32" /> -->
 		<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
 	
 		<!-- 📱 Theme -->
@@ -164,52 +164,52 @@
 						<div class="goods__item">
 							<div class="wrapper__item"><img src="img/works/coffin_1.jpg" alt="goods"></div>
 							<div class="goods__item__text">Труна дубова</div>
-							<button class="btn">Купити</button>
+							<button class="btn button_mini">Купити</button>
 						</div>
 						<div class="goods__item">
 							<div class="wrapper__item"><img src="img/works/coffin_2.jpg" alt="goods"></div>
 							<div class="goods__item__text">Труна дубова</div>
-							<button class="btn">Купити</button>
+							<button class="btn button_mini">Купити</button>
 						</div>
 						<div class="goods__item">
 							<div class="wrapper__item"><img src="img/works/coffin_3.jpg" alt="goods"></div>
 							<div class="goods__item__text">Труна дубова</div>
-							<button class="btn">Купити</button>
+							<button class="btn button_mini">Купити</button>
 						</div>
 						<div class="goods__item">
 							<div class="wrapper__item"><img src="img/works/coffin_4.jpg" alt="goods"></div>
 							<div class="goods__item__text">Труна дубова</div>
-							<button class="btn">Купити</button>
+							<button class="btn button_mini">Купити</button>
 						</div>
 						<div class="goods__item">
 							<div class="wrapper__item"><img src="img/works/coffin_5.jpg" alt="goods"></div>
 							<div class="goods__item__text">Труна дубова</div>
-							<button class="btn">Купити</button>
+							<button class="btn button_mini">Купити</button>
 						</div>
 						<div class="goods__item">
 							<div class="wrapper__item"><img src="img/works/coffin_6.jpg" alt="goods"></div>
 							<div class="goods__item__text">Труна дубова</div>
-							<button class="btn">Купити</button>
+							<button class="btn button_mini">Купити</button>
 						</div>
 						<div class="goods__item">
 							<div class="wrapper__item"><img src="img/works/coffin_7.jpg" alt="goods"></div>
 							<div class="goods__item__text">Труна дубова</div>
-							<button class="btn">Купити</button>
+							<button class="btn button_mini">Купити</button>
 						</div>
 						<div class="goods__item">
 							<div class="wrapper__item"><img src="img/works/coffin_8.jpg" alt="goods"></div>
 							<div class="goods__item__text">Труна дубова</div>
-							<button class="btn">Купити</button>
+							<button class="btn button_mini">Купити</button>
 						</div>
 						<div class="goods__item">
 							<div class="wrapper__item"><img src="img/works/coffin_9.jpg" alt="goods"></div>
 							<div class="goods__item__text">Труна дубова</div>
-							<button class="btn">Купити</button>
+							<button class="btn button_mini">Купити</button>
 						</div>
 						<div class="goods__item">
 							<div class="wrapper__item"><img src="img/works/coffin_10.jpg" alt="goods"></div>
 							<div class="goods__item__text">Труна дубова</div>
-							<button class="btn">Купити</button>
+							<button class="btn button_mini">Купити</button>
 						</div>
 					</div>
 				</div>
@@ -278,6 +278,46 @@
 				<address class="footer__addr">вул. Вербова, Дружня, Київська область</address>
 				<a href="tel:+380934983250" class="footer__tel">+380934983250</a>
 			</footer>
+
+			<div class="overlay">
+				<div class="modal" id="consultation">
+					<div class="modal__close">&times;</div>
+					<div class="modal__subtitle">Просто заповніть заявку</div>
+					<div class="modal__descr">Ми перезвонимо вам протягом 10 хвилин</div>
+					<form class="feed-form feed-form_mt25" action="#">
+						<input name="name" type="text" placeholder="Ваше имя">
+						<input name="phone" placeholder="Ваш телефон">
+						<input name="email" type="email" placeholder="Ваш E-mail">
+			
+						<button class="button button_submit">Замовити консультацію</button>
+					</form>
+			
+				</div>
+			
+				<div class="modal" id="order">
+					<div class="modal__close">&times;</div>
+					<div class="modal__subtitle">Ваше замовлення:</div>
+					<div class="modal__descr">Труна</div>
+					<form class="feed-form feed-form_mt25">
+						<input name="name" type="text" placeholder="Ваше ім'я">
+						<input name="phone" placeholder="Ваш телефон">
+						<input name="email" type="email" placeholder="Ваш E-mail">
+			
+						<button class="button button_submit">Купити</button>
+					</form>
+			
+				</div>
+			
+				<div class="modal modal_mini" id="thanks">
+					<div class="modal__close">&times;</div>
+					<div class="modal__subtitle">Дякую за Звернення</div>
+					<div class="modal__descr">Наш менеджер звяжется з вами в найближчий час!</div>
+			
+			
+				</div>
+			</div>
+
+			
 		</main>
 		
 		<script src="script.js"></script>
