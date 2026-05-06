@@ -83,22 +83,37 @@ async function load(withAnimation = false) {
 // 🔥 МОДАЛКИ
 // ======================
 
+
+function closeAllModals() {
+  document.querySelectorAll('.modal').forEach(m => {
+    m.classList.remove('active');
+  });
+  document.querySelector('.overlay').classList.remove('active');
+}
+
+function openModal(id) {
+  closeAllModals();
+  document.querySelector('.overlay').classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
 // відкриття consultation
 document.querySelectorAll('[data-modal="consultation"]').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelector('.overlay').classList.add('active');
-    document.querySelector('#consultation').classList.add('active');
+
+    openModal('consultation');
   });
 });
 
 // закриття всіх
 document.querySelectorAll('.modal__close').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelector('.overlay').classList.remove('active');
-    document.querySelector('#consultation').classList.remove('active');
-    document.querySelector('#order').classList.remove('active');
-    document.querySelector('#thanks').classList.remove('active');
-  });
+  btn.addEventListener('click', closeAllModals);
+}); 
+
+document.querySelector('.overlay').addEventListener('click', (e) => {
+  if (e.target.classList.contains('overlay')) {
+    closeAllModals();
+  }
 });
 
 // кнопки товарів
@@ -110,8 +125,7 @@ buttons.forEach((btn, i) => {
     document.querySelector('#order .modal__descr').textContent =
       subtitles[i].textContent;
 
-    document.querySelector('.overlay').classList.add('active');
-    document.querySelector('#order').classList.add('active');
+    openModal('order');
   });
 });
 
@@ -185,6 +199,13 @@ document.querySelectorAll('.feed-form').forEach(form => {
 
     if (!validateForm(form)) return;
 
+    const btn = form.querySelector('button');
+    const originalText = btn.textContent;
+
+    // 🔥 LOADING START
+    btn.disabled = true;
+    btn.innerHTML = 'Відправка <span class="loader"></span>';
+
     const fd = new FormData(form);
 
     const data = {
@@ -201,21 +222,18 @@ document.querySelectorAll('.feed-form').forEach(form => {
         body: JSON.stringify(data)
       });
 
-      // очищаємо форму
       form.reset();
 
-      // закриваємо всі
-      document.querySelector('.overlay').classList.remove('active');
-      document.getElementById('consultation').classList.remove('active');
-      document.getElementById('order').classList.remove('active');
-
-      // відкриваємо THANKS
-      document.querySelector('.overlay').classList.add('active');
-      document.getElementById('thanks').classList.add('active');
+      // показати THANKS
+      openModal('thanks');
 
     } catch (err) {
       alert('Помилка відправки');
       console.error(err);
+    } finally {
+      // 🔥 LOADING END
+      btn.disabled = false;
+      btn.textContent = originalText;
     }
   });
 });
