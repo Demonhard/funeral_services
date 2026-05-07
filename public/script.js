@@ -238,6 +238,33 @@ document.querySelectorAll('.feed-form').forEach(form => {
   });
 });
 
+const tabs = document.querySelectorAll('.goods__tab');
+const contents = document.querySelectorAll('.goods__grid');
+
+tabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => {
+
+    // якщо вже активний — нічого не робимо
+    if (tab.classList.contains('goods__tab_active')) return;
+
+    // прибираємо active у всіх tabs
+    tabs.forEach(item => {
+      item.classList.remove('goods__tab_active');
+    });
+
+    // прибираємо active у всіх content
+    contents.forEach(content => {
+      content.classList.remove('goods__grid_active');
+    });
+
+    // додаємо active поточному tab
+    tab.classList.add('goods__tab_active');
+
+    // показуємо потрібний content
+    contents[index].classList.add('goods__grid_active');
+  });
+});
+
 load();
 
 

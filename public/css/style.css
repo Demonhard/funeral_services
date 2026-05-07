@@ -59,7 +59,7 @@ nav {
 	justify-content: space-between;
 	align-items: center;
 	column-gap: 30px;
-	padding: 20px 20px;
+	padding: 16px 20px;
 	background-color: #000;
 	a {
 		color: var(--light-color);
@@ -376,8 +376,44 @@ nav {
 	font-weight: 500;
 }
 
+.goods__tabs {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	list-style-type: none;
+	margin-top: 46px;
+	margin-bottom: 0;
+	padding-left: 0;
+	margin-bottom: 57px;
+}
+
+.goods__tab {
+	width: 220px;
+		height: 50px;
+		border: 2px solid #d0d0d0;
+		text-align: center;
+		color: #6b6b6b;
+		line-height: 48px;
+		text-transform: uppercase;
+		font-weight: 400;
+		font-size: 18px;
+		margin: 0 5px;
+		cursor: pointer;
+		transition: 0.5s;
+	
+		&:hover {
+			box-shadow: 3px 3px 10px var(--light-color);
+			border: none;
+		}
+}
+
+.goods__tab_active {
+	background-color: var(--light-color);
+	color: var(--dark-color);
+}
+
 .goods__grid {
-	display: grid;
+	display: none;
 	grid-template-rows: repeat(2, 1fr);
 	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 	column-gap: 30px;
@@ -386,6 +422,10 @@ nav {
 	@media screen and (max-width: 568px) {
 		grid-template-columns: 1fr; 
 	}
+}
+
+.goods__grid_active {
+	display: grid;
 }
 
 .goods__item {
