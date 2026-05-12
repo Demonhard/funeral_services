@@ -175,6 +175,12 @@ nav {
 	}
 }
 
+.goods__item .btn {
+	@media screen and (max-width: 576px) {
+		width: 80%;
+	}
+}
+
 .btn:hover {
 	font-weight: 500;
 	box-shadow: 5px 5px 10px 0 rgba(255, 255, 255, 0.62);
