@@ -112,7 +112,7 @@ app.post("/posts", async (req, res) => {
   // 📧 ВІДПРАВКА ПОШТИ (з телефоном)
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER_TO,
     subject: "Новий відгук",
     html: `
       <b>Ім'я:</b> ${safeData.username} <br>
@@ -133,7 +133,7 @@ app.post("/send", async (req, res) => {
   try {
     const info = await transporter.sendMail({
       from: `"Скорбота сайт" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER_TO,
       subject: "Нова заявка",
       html: `
         <h3>Нове звернення</h3>
