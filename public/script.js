@@ -134,9 +134,16 @@ buttons.forEach((btn, i) => {
 // ======================
 
 function validateForm(form) {
-  const name = form.querySelector('[name="name"]');
+
+  const name =
+    form.querySelector('[name="name"]') ||
+    form.querySelector('[name="username"]');
+
   const email = form.querySelector('[name="email"]');
+
   const phone = form.querySelector('[name="phone"]');
+
+  const comment = form.querySelector('[name="comment"]');
 
   let valid = true;
 
@@ -144,32 +151,52 @@ function validateForm(form) {
   form.querySelectorAll('.error').forEach(e => e.remove());
 
   function showError(input, message) {
+
+    if (!input) return;
+
     const err = document.createElement('div');
+
     err.className = 'error';
     err.style.color = 'red';
     err.style.fontSize = '12px';
     err.textContent = message;
+
     input.after(err);
   }
 
-  if (!name.value.trim()) {
-    showError(name, "Введіть своє ім'я");
+  // name
+  if (name && !name.value.trim()) {
+    showError(name, "Введіть ім'я");
     valid = false;
   }
 
-  if (!phone.value.trim()) {
-    showError(phone, "Введіть свій номер телефону");
+  // phone
+  if (phone && !phone.value.trim()) {
+    showError(phone, "Введіть телефон");
     valid = false;
   }
 
+  // comment
+  if (comment && !comment.value.trim()) {
+    showError(comment, "Введіть коментар");
+    valid = false;
+  }
+
+  // email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!email.value.trim()) {
-    showError(email, "Введіть свою пошту");
-    valid = false;
-  } else if (!emailRegex.test(email.value)) {
-    showError(email, "Ваша пошта має бути вигляду name@domain.com");
-    valid = false;
+  if (email) {
+
+    if (!email.value.trim()) {
+
+      showError(email, "Введіть email");
+      valid = false;
+
+    } else if (!emailRegex.test(email.value)) {
+
+      showError(email, "Некоректний email");
+      valid = false;
+    }
   }
 
   return valid;
