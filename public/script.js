@@ -40,7 +40,7 @@ form.addEventListener("submit", async (e) => {
   data.email = sanitize(data.email);
   data.comment = sanitize(data.comment);
   data.phone = sanitize(data.phone);
-  await fetch("/posts", {
+  await fetch("https://api.skorbota-ritual.com.ua/posts", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
     body: JSON.stringify(data)
@@ -52,7 +52,7 @@ form.addEventListener("submit", async (e) => {
 
 // 🚀 load
 async function load(withAnimation = false) {
-  const res = await fetch("/posts");
+  const res = await fetch("https://api.skorbota-ritual.com.ua/posts");
   const data = await res.json();
 
   posts.innerHTML = "";
@@ -216,7 +216,7 @@ document.querySelectorAll('.feed-form').forEach(form => {
     };
 
     try {
-      await fetch('/send', {
+      await fetch('https://api.skorbota-ritual.com.ua/send', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
