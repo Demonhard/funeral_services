@@ -274,22 +274,17 @@ const sections = document.querySelectorAll('section');
 const observer = new IntersectionObserver(
 	(entries) => {
 		entries.forEach(entry => {
-
-			// якщо секція з'явилась на екрані
 			if (entry.isIntersecting) {
 				entry.target.classList.add('show');
-
-				// щоб анімація була лише 1 раз
 				observer.unobserve(entry.target);
 			}
 		});
 	},
 	{
-		threshold: 0.15
+		rootMargin: '0px 0px -20% 0px'
 	}
 );
 
-// підключення до всіх section
 sections.forEach(section => {
 	observer.observe(section);
 });
