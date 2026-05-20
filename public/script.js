@@ -9,8 +9,39 @@ function sanitize(str) {
     .replace(/>/g, "&gt;");
 }
 
-// 🎯 submit
+// ======================
+// 🔥 ДОДАВАННЯ КОМЕНТАРЯ В DOM
+// ======================
+
+function addPost(p, withAnimation = true) {
+
+  const div = document.createElement("div");
+
+  div.classList.add("comment");
+
+  div.innerHTML = `
+    <b class="name__client">${p.username}</b>
+    <p>${p.email}</p>
+    <div class="comment__client">${p.comment}</div>
+  `;
+
+  posts.prepend(div);
+
+  if (withAnimation) {
+    setTimeout(() => {
+      div.classList.add("show");
+    }, 50);
+  } else {
+    div.classList.add("show");
+  }
+}
+
+// ======================
+// 🎯 SUBMIT
+// ======================
+
 form.addEventListener("submit", async (e) => {
+
   e.preventDefault();
 
   const fd = new FormData(form);
@@ -19,10 +50,10 @@ form.addEventListener("submit", async (e) => {
     username: fd.get("username").trim(),
     email: fd.get("email").trim(),
     comment: fd.get("comment").trim(),
-  phone: fd.get("phone").trim() // 🔥 ДОДАЛИ
-};
+    phone: fd.get("phone").trim()
+  };
 
-  // ❌ валідація
+  // ❌ ВАЛІДАЦІЯ
   if (!data.username || !data.email || !data.comment || !data.phone) {
     alert("Заповніть всі поля");
     return;
@@ -35,19 +66,39 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  // 🔒 sanitize
+  // 🔒 SANITIZE
   data.username = sanitize(data.username);
   data.email = sanitize(data.email);
   data.comment = sanitize(data.comment);
   data.phone = sanitize(data.phone);
-  await fetch("https://api.skorbota-ritual.com.ua/posts", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(data)
-  });
 
-  form.reset();
-  load(true); // 🔥 з анімацією
+  try {
+
+    const res = await fetch("https://api.skorbota-ritual.com.ua/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!res.ok) {
+      throw new Error("Помилка сервера");
+    }
+
+    const result = await res.json();
+
+    // 🔥 МИТТЄВО ДОДАЄМО КОМЕНТАР
+    addPost(result.post);
+
+    // очистка форми
+    form.reset();
+
+  } catch(err) {
+
+    console.error(err);
+    alert("Помилка відправки");
+  }
 });
 
 // 🚀 load
@@ -202,19 +253,7 @@ function validateForm(form) {
   return valid;
 }
 
-// ======================
-// 🔥 ПІДКЛЮЧЕННЯ ДО ФОРМИ
-// ======================
 
-const modalForm = document.querySelector('#form');
-
-if (modalForm) {
-  modalForm.addEventListener('submit', (e) => {
-    if (!validateForm(modalForm)) {
-      e.preventDefault();
-    }
-  });
-}
 
 // ======================
 // 🚀 ВІДПРАВКА МОДАЛЬНИХ ФОРМ
