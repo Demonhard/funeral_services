@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home3/skorbot3/public_html/
+    - /bin/cp -Rf public/* $DEPLOYPATH
+    - echo "Deployment completed successfully!"
