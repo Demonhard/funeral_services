@@ -40,7 +40,8 @@ function addPost(p, withAnimation = true) {
 // 🎯 SUBMIT
 // ======================
 
-form.addEventListener("submit", async (e) => {
+if (form) {
+  form.addEventListener("submit", async (e) => {
 
   e.preventDefault();
 
@@ -76,9 +77,7 @@ form.addEventListener("submit", async (e) => {
 
     const res = await fetch("https://api.skorbota-ritual.com.ua/posts", {
       method: "POST",
-      headers: {
-        "Content-Type":"application/json"
-      },
+      headers: {"Content-Type":"application/json"},
       body: JSON.stringify(data)
     });
 
@@ -100,6 +99,7 @@ form.addEventListener("submit", async (e) => {
     alert("Помилка відправки");
   }
 });
+};
 
 // 🚀 load
 async function load(withAnimation = false) {
@@ -282,20 +282,28 @@ document.querySelectorAll('.feed-form').forEach(form => {
     };
 
     try {
-      await fetch('https://api.skorbota-ritual.com.ua/send', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-      });
 
-      form.reset();
+      const response = await fetch('https://api.skorbota-ritual.com.ua/send', {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json'
+    },
+      body: JSON.stringify(data)
+  });
 
-      console.log(result);
+    const result = await response.json();
 
-      // показати THANKS
-      openModal('thanks');
+    console.log(result);
 
-    } catch (err) {
+    if (!response.ok) {
+      throw new Error(result.error || 'Server error');
+    }
+
+    form.reset();
+
+  openModal('thanks');
+
+} catch (err) {
       alert('Помилка відправки');
       console.error(err);
     } finally {
