@@ -290,6 +290,8 @@ document.querySelectorAll('.feed-form').forEach(form => {
 
       form.reset();
 
+      console.log(result);
+
       // показати THANKS
       openModal('thanks');
 
